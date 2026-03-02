@@ -1,6 +1,9 @@
-import React from 'react'
+import {useGSAP} from '@gsap/react'
 import { useRef } from 'react';
 import { gsap } from 'gsap/gsap-core';
+import {ScrollTrigger} from 'gsap/ScrollTrigger'
+
+gsap.registerPlugin(ScrollTrigger);
 
 const ShowcaseSection = () => {
 
@@ -8,6 +11,35 @@ const ShowcaseSection = () => {
     const project1Ref = useRef(null);
     const project2Ref = useRef(null);
     const project3Ref = useRef(null);
+
+    
+
+    useGSAP(() => {
+
+    const projects = [project1Ref.current, project2Ref.current, project3Ref.current];
+
+    projects.forEach((card, index) => {
+        gsap.fromTo(
+            card,
+            {
+                y: 50, opacity: 0
+            },
+            {
+                y: 0,
+                opacity: 1,
+                duration: 1,
+                delay: 0.3 * (index + 1),
+                scrollTrigger: {
+                    trigger: card,
+                    start: 'top bottom-=100',
+                }
+            }
+        )
+    })
+
+
+        gsap.fromTo(sectionRef.current, {opacity: 0}, {opacity: 1, duration: 1.5})
+    }, []);
     
 
   return (
